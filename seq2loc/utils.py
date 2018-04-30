@@ -4,6 +4,9 @@ import numpy as np
 aas = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', '.']
 aas = ''.join(aas)
 
+nucleotides = 'A','C','T','G'
+nucleotides = ''.join(nucleotides)
+
 N_LETTERS = len(aas)
 
 def letterToIndex(letter):
@@ -69,3 +72,12 @@ def get_epoch_inds(n_samples, batch_size):
     inds = [sample_order[spacing[i]:spacing[i+1]] for i in range(len(spacing)-1)]
     
     return inds
+
+def split_dat(uniprot_tsv_path, train_test_split = [0.9, 0.1]):
+    #split on unique protein id
+    
+    pd = pd.read_csv(uniprot_tsv_path, sep = '\t')
+    
+    pdb.set_trace()
+    
+    
