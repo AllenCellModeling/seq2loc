@@ -4,13 +4,17 @@ import numpy as np
 aas = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y']
 aas = ''.join(aas)
 
-nucleotides = 'A','C','T','G'
-nucleotides = ''.join(nucleotides)
-
 N_LETTERS = len(aas)
 
+def chars_to_dict(stringmap):
+    mydict = {}
+    for i, char in enumerate(list(stringmap)):
+        mydict[char] = i
+        
+    return mydict
+
 def letterToIndex(letter, stringmap = aas):
-    return stringmap.find(letter)
+    return stringmap[letter]
 
 def lineToIndices(line, stringmap = aas):
     indices = torch.zeros(len(line)).long()
@@ -80,4 +84,17 @@ def split_dat(uniprot_tsv_path, train_test_split = [0.9, 0.1]):
     
     pdb.set_trace()
     
-    
+def seq_to_padded_tensor(sequence_indices, tensor_len, nchars):
+    my_inds = sequence_indices
+    my_len = my_inds.shape[0]
+    additional_len = tensor_len - my_len
+
+
+    my_inds = torch.unsqueeze(my_inds, 1)
+
+    my_inds[my_inds == -1] = 0
+
+    sequence_tensor = torch.cat([indicesToTensor(my_inds, ndims = nchars), torch.zeros([additional_len, 1, nchars])], 0)
+
+    return sequence_tensor  
+        

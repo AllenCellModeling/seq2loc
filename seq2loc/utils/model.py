@@ -1,17 +1,26 @@
 import torch
 import pdb
 
-def weights_init(m):
-    classname = m.__class__.__name__
-    if classname.find('Conv') != -1:
-        try:
-            m.weight.data.normal_(0.0, 0.02)
-        except:
-            pass
-    elif classname.find('BatchNorm') != -1:
-        m.weight.data.normal_(1.0, 0.02)
-        m.bias.data.fill_(0)
+def weights_init(m, meth='normal'):
+    
+#     if meth == 'normal':
 
+#         classname = m.__class__.__name__
+#         if classname.find('Conv') != -1:
+#             try:
+#                 m.weight.data.normal_(0.0, 0.02)
+#             except:
+#                 pass
+#         elif classname.find('BatchNorm') != -1:
+#             m.weight.data.normal_(1.0, 0.02)
+#             m.bias.data.fill_(0)
+            
+#     elif meth == 'xavier_normal'
+    try:
+        torch.nn.init.xavier_normal_(m.weight.data, gain=1)
+        torch.nn.init.xavier_normal_(m.bias.data, gain=1)
+    except:
+        pass
 
 
 def load_state(model, optimizer, path, gpu_id = 0):
