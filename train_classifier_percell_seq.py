@@ -98,12 +98,9 @@ N_LETTERS = len(ds.sequenceDataset.sequence_map)
 N_CLASSES = len(ds.sequenceDataset.mlb.classes_)
 
 criterion = torch.nn.BCEWithLogitsLoss()
-if opts.model_type == 'transformer':
-    model = seq2loc.models.Transformer()
-    
-    
-elif opts.model_type == 'densenet':
-    model = seq2loc.models.DenseNet1d(N_LETTERS, N_CLASSES, n_layers = 4, n_heads_per_layer = 5, dropout = opts.dropout).cuda(GPU_id)
+
+if opts.model_type == 'densenet':
+    model = seq2loc.models.DenseNet1d(N_LETTERS, N_CLASSES, dropout = opts.dropout).cuda(GPU_id)
 else:
     model = seq2loc.models.SeqConvResidClassifier(N_LETTERS, N_CLASSES, 
                                                   kernel_size = opts.kernel_size, 
